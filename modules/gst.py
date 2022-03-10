@@ -42,12 +42,14 @@ class ReferenceEncoder(torch.nn.Module):
 
 
     def forward(self, inputs, input_lengths=None):
-        assert inputs.size(-1) % self.n_mels == 0
+        # assert inputs.size(-1) % self.n_mels == 0
+        print(inputs.size(0), inputs.size(1), inputs.size(2))
         out = inputs.view(inputs.size(0), 1, -1, self.n_mels)  # [N, 1, Ty, n_mels]
         for conv in self.convs:
             out = conv(out)
 
         out = out.transpose(1, 2)  # [N, Ty//2^K, 128, n_mels//2^K]
+        print('out:', out.shape)
         N, T = out.size(0), out.size(1)
         out = out.contiguous().view(N, T, -1)  # [N, Ty//2^K, 128*n_mels//2^K]
 
@@ -171,7 +173,10 @@ class GST(torch.nn.Module):
     def inference(self, encoder_outputs, reference_mel=None, token_idx=None):
         style_embedding = None
         if reference_mel is not None:
-            _, style_embedding = self._forward(reference_mel)
+            # _, style_embedding = self._forward(reference_mel)
+            _, style_embedding = self.forward(reference_mel)
+            print(f'encoder_outputs: {encoder_outputs.shape}')
+            print(f'style_embedding: {style_embedding.shape}')
             style_embedding = style_embedding.expand_as(encoder_outputs)
         elif token_idx is not None:
             query = self.stl.embed.new_zeros(1, 1, self.stl.query_dim)
