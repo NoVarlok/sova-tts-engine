@@ -80,7 +80,6 @@ def main(input_sentences, input_names, tacotron_path, audio_path, hparams, use_b
     with torch.no_grad():
         for input_sentence, input_name in zip(input_sentences, input_names):
             processed_sentence = get_text(input_sentence, mask_stress, mask_phonemes, text_handler)
-            print('processed_sentence:', processed_sentence)
             processed_sentence = torch.unsqueeze(processed_sentence, 0)
             processed_sentence = processed_sentence.cuda()
             mel_outputs, mel_outputs_postnet, gates, alignments = tacotron.inference(processed_sentence, reference_mel=mel)
@@ -90,11 +89,11 @@ def main(input_sentences, input_names, tacotron_path, audio_path, hparams, use_b
 
 
 if __name__ == "__main__":
-    model_checkpoint_path = '/home/lyakhtin/repos/tts/results/natasha/tacotron2/tacotron-gst-mar-04/checkpoint_114000'
-    hparams_path = '/home/lyakhtin/repos/tts/results/natasha/tacotron2/tacotron-gst-mar-04/hparams.yaml'
-    save_dir = '/home/lyakhtin/repos/tts/results/natasha/inference_test/test_mels'
-    test_csv = '/home/lyakhtin/repos/tts/datasets/natasha_dataset/tacotron_test.csv'
-    audio_path = '/home/lyakhtin/repos/tts/gst_wavs/koq1q-l5wci.wav'
+    model_checkpoint_path = '/home/lyakhtin/repos/tts/results/RuDevices_22050/tacotron2/tacotron-gst-only-apr_3/checkpoint_160000'
+    hparams_path = '/home/lyakhtin/repos/tts/results/RuDevices_22050/tacotron2/tacotron-gst-only-apr_3/hparams.yaml'
+    save_dir = '/home/lyakhtin/repos/tts/results/RuDevices_22050/inference_test/test_mels'
+    test_csv = '/home/lyakhtin/repos/tts/datasets/RuDevices_22050/tacotron_inference_short.csv'
+    audio_path = '/home/lyakhtin/repos/tts/gst_wavs/fuckyou.wav'
     hparams = create_hparams(hparams_path)
     input_sentences, input_names = parse_input_csv(test_csv)
 

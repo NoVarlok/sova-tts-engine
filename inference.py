@@ -70,7 +70,6 @@ def main(input_sentences, input_names, tacotron_path, hparams, use_basic_handler
     with torch.no_grad():
         for input_sentence, input_name in zip(input_sentences, input_names):
             processed_sentence = get_text(input_sentence, mask_stress, mask_phonemes, text_handler)
-            print('processed_sentence:', processed_sentence)
             processed_sentence = torch.unsqueeze(processed_sentence, 0)
             processed_sentence = processed_sentence.cuda()
             mel_outputs, mel_outputs_postnet, gates, alignments = tacotron.inference(processed_sentence)
@@ -80,10 +79,10 @@ def main(input_sentences, input_names, tacotron_path, hparams, use_basic_handler
 
 
 if __name__ == "__main__":
-    model_checkpoint_path = '/home/lyakhtin/repos/tts/results/natasha/tacotron2/tacotron2-feb-12-pretrained-from-ruslan/checkpoint_114000'
-    hparams_path = '/home/lyakhtin/repos/tts/results/natasha/tacotron2/tacotron2-feb-12-pretrained-from-ruslan/hparams.yaml'
-    save_dir = '/home/lyakhtin/repos/tts/results/natasha/inference_test/test_mels'
-    test_csv = '/home/lyakhtin/repos/tts/datasets/natasha_dataset/tacotron_test.csv'
+    model_checkpoint_path = '/home/lyakhtin/repos/tts/results/RuDevices/tacotron2/tacotron-gst-mar-24/checkpoint_186000'
+    hparams_path = '/home/lyakhtin/repos/tts/results/RuDevices/tacotron2/tacotron-gst-mar-24/hparams.yaml'
+    save_dir = '/home/lyakhtin/repos/tts/results/RuDevices/inference_test/test_mels'
+    test_csv = '/home/lyakhtin/repos/tts/datasets/RuDevices/tacotron_inference_short.csv'
     hparams = create_hparams(hparams_path)
 
     input_sentences, input_names = parse_input_csv(test_csv)
