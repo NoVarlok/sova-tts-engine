@@ -745,7 +745,7 @@ class Tacotron2(nn.Module):
             reference_mel = kwargs.pop("reference_mel", None)
             token_idx = kwargs.pop("token_idx", None)
 
-            gst_output = self.gst.inference(encoder_outputs, reference_mel, token_idx)
+            gst_output = self.gst.inference(encoder_outputs, reference_mel.transpose(2, 1), token_idx)
             if gst_output is not None:
                 encoder_outputs += gst_output
 
